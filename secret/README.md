@@ -1,6 +1,6 @@
 # Secret
 A Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key
-Such information might otherwise be put in a Pod specification or in a container image but you don't need to include in your application code
+Such information might otherwise be put in a Pod specification or in a container image but you don't need include to in your application code
 
 ## !! Unencrypted by default, 
 ## Use case
