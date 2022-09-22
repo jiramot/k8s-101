@@ -23,6 +23,7 @@ or
 kubectl delete -f nginx-pod.yaml
 ```
 
+## Multi-container
 ### 2. Share network
 ```
 kubectl apply -f shared-network.yaml
@@ -71,4 +72,9 @@ PID   USER     TIME  COMMAND
    44 101       0:00 nginx: worker process
    45 root      0:00 sh
    54 root      0:00 ps
-```   
+```
+#### 5. Initial container
+```
+kubectl apply -f init-container.yaml
+kubectl get pod
+```
