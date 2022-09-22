@@ -1,8 +1,8 @@
 # POD
 
-## Run nginx pod
+## Create nginx pod
 ```
-kubectl run nginx --image=nginx --restart=Never
+kubectl apply -f nginx-pod.yaml
 ```
 
 ## List pod 
@@ -14,3 +14,6 @@ kubectl get pods
 ```
 kubectl delete pods nginx
 ```
+or
+```
+kubectl delete -f nginx-pod.yaml
