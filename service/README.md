@@ -38,3 +38,10 @@ spec:
       port: 80
       targetPort: 80 
 ```
+
+## Test
+```
+kubectl run curl --rm -ti --image krishgobinath/netutils sh
+curl http://nginx-service
+curl http://nginx-service.default.svc.cluster.local
+```
