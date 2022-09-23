@@ -1,18 +1,3 @@
-# Service
-An abstract way to expose an application running on a set of Pods as a network service.
-
-## Create service
-```
-kubectl apply -f nginx-service.yaml
-```
-
-## Delete service
-```
-kubectl delete -f nginx-service.yaml
-```
-
-## Link pods and service with `selector` labels
-```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -31,10 +16,11 @@ kind: Service
 metadata:
   name: nginx-service
 spec:
+  type: NodePort
   selector:
     app.kubernetes.io/name: nginx
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80 
-```
+      targetPort: 80
+      nodePort: 30007
