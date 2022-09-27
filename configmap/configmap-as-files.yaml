@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: game-demo-configmap
+  name: demo-configmap
 data:
   # property-like keys; each key maps to a simple value
   player_initial_lives: "3"
@@ -10,34 +10,42 @@ data:
   # file-like keys
   game.properties: |
     enemy.types=aliens,monsters
-    player.maximum-lives=5    
+    player.maximum-lives=5
   user-interface.properties: |
     color.good=purple
     color.bad=yellow
     allow.textmode=true
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: configmap-as-file-demo-pod
+  name: configmap-as-env
+  labels:
+    app: configmap-env
 spec:
-  containers:
-    - name: demo
-      image: alpine
-      command: ["sleep", "3600"]
-      volumeMounts:
-      - name: config
-        mountPath: "/config"
-        readOnly: true
-  volumes:
-    # You set volumes at the Pod level, then mount them into containers inside that Pod
-    - name: config
-      configMap:
-        # Provide the name of the ConfigMap you want to mount.
-        name: game-demo-configmap
-        # An array of keys from the ConfigMap to create as files
-        items:
-        - key: "game.properties"
-          path: "game.properties"
-        - key: "user-interface.properties"
-          path: "user-interface.properties"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: configmap-volumes
+  template:
+    metadata:
+      labels:
+        app: configmap-volumes
+    spec:
+      containers:
+        - name: configmap-volumes
+          image: alpine
+          command: ["sleep", "3600"]
+          volumeMounts:
+          - name: config
+            mountPath: "/config"
+            readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: demo-configmap
+            items:
+            - key: "game.properties"
+              path: "game.properties"
+            - key: "user-interface.properties"
+              path: "user-interface.properties"
