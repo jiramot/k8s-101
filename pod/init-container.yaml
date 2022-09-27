@@ -1,21 +1,19 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: init-container
+  name: init-container-pod
 spec:
   initContainers:
-    - name: init
-      image: alpine
-      command: [ "/bin/sh" ]
-      args: [ "-c", "for i in {1..5}; do date; sleep 10;done" ]
+  - name: init
+    image: alpine
+    command: [ "/bin/sh" ]
+    args: [ "-c", "for i in {1..5}; do date; sleep 10;done" ]
   containers:
-    - name: shell
-      image: busybox:1.28
-      securityContext:
-        capabilities:
-          add:
-            - SYS_PTRACE
-      stdin: true
-      tty: true
-
-
+  - name: shell
+    image: busybox:1.28
+    securityContext:
+      capabilities:
+        add:
+          - SYS_PTRACE
+    stdin: true
+    tty: true

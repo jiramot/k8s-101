@@ -5,60 +5,75 @@ A Pods in Kubernetes abstraction that represent a group of one or more applicati
 - Information about how to run each container, such as the container image version or specific ports to use
 
 ## Workshop
-### 1. Basic command
-#### Create nginx pod
+### 1. Pod
+Create pod
 ```
 kubectl apply -f nginx-pod.yaml
 ```
-#### List pod
+List pod
 ```
 kubectl get pods
 ```
-#### Destroy nginx pod
+destroy pod
 ```
-kubectl delete pods nginx
+kubectl delete pods nginx-pod
 ```
 or
 ```
 kubectl delete -f nginx-pod.yaml
 ```
 
-## Multi-container
-### 2. Share network
+#### 2. Initial container
+```
+kubectl apply -f init-container.yaml
+kubectl get pod
+```
+
+### 3. Share network
+Create
 ```
 kubectl apply -f shared-network.yaml
 ```
-Attach to shell container
+Attach to curl container
 ```
-kubectl attach -it nginx -c shell
-wget http://localhost
-cat index.html
+kubectl attach -it shared-network -c curl
+curl http://localhost
+```
+Destroy
+```
+kubectl delete -f shared-network.yaml
 ```
 
-### 3. Share volume
+### 4. Share volume
 ```
 kubectl apply -f shared-volumes.yaml
 ```
 Attach to shell container
 ```
-kubectl attach -it nginx -c shell
+kubectl attach -it shared-volumes -c a
 cd /data
-echo "hello" > a.txt
+echo "created form a container" > a.txt
 ```
 Attach to shell2 container
 ```
-kubectl attach -it nginx -c shell2
-cd /data2
+kubectl attach -it shared-volumes -c b
+cd /data
 ls
 cat a.txt
 ```
-### 4. Share Process Namespace
+Destroy
 ```
-kubectl apply shared-process-namespace.yaml
+kubectl destroy -f shared-volumes.yaml
+```
+
+### 4. Share Process Namespace
+Create
+```
+kubectl apply -f shared-process-namespace.yaml
 ```
 Attach to shell container
 ```
-kubectl attach -it nginx -c shell
+kubectl attach -it shared-process -c shell
 ps
 ```
 ```
@@ -73,8 +88,7 @@ PID   USER     TIME  COMMAND
    45 root      0:00 sh
    54 root      0:00 ps
 ```
-#### 5. Initial container
+Delete
 ```
-kubectl apply -f init-container.yaml
-kubectl get pod
+kubectl delete -f shared-process-namespace.yaml
 ```

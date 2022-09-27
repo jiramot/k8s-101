@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: share-network
+  name: shared-network
 spec:
   containers:
   - name: nginx
     image: nginx:1.14.2
     ports:
     - containerPort: 80
-  - name: shell
-    image: busybox:1.28
+  - name: curl
+    image: krishgobinath/netutils
     securityContext:
       capabilities:
         add:
