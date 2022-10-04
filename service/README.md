@@ -3,45 +3,17 @@ An abstract way to expose an application running on a set of Pods as a network s
 
 ## Create service
 ```
-kubectl apply -f nginx-service.yaml
+kubectl apply -f cluster-ip.yaml
 ```
 
 ## Delete service
 ```
-kubectl delete -f nginx-service.yaml
-```
-
-## Link pods and service with `selector` labels
-```
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nginx
-  labels:
-    app.kubernetes.io/name: nginx
-spec:
-  containers:
-  - name: nginx
-    image: nginx:1.14.2
-    ports:
-    - containerPort: 80
----    
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-service
-spec:
-  selector:
-    app.kubernetes.io/name: nginx
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80 
+kubectl delete -f cluster-ip.yaml
 ```
 
 ## Test
 ```
 kubectl run curl --rm -ti --image krishgobinath/netutils sh
-curl http://nginx-service
-curl http://nginx-service.default.svc.cluster.local
+curl http://nginx-service:8000
+curl http://nginx-service.default.svc.cluster.local:8000
 ```
