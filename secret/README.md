@@ -10,7 +10,7 @@ Such information might otherwise be put in a Pod specification or in a container
 
 ## Create secret
 ```
-kubectl apply -f secret.yaml
+kubectl apply -f secret-as-env.yaml
 ```
 ## List secret
 ```
